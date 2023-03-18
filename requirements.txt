@@ -1,0 +1,12 @@
+certifi==2022.12.7
+charset-normalizer==3.1.0
+cssselect==1.2.0
+decorator==5.1.1
+idna==3.4
+lxml==4.9.2
+packaging==23.0
+parsel==1.7.0
+requests==2.28.2
+urllib3==1.26.15
+validators==0.20.0
+w3lib==2.1.1
