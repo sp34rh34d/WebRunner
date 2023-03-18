@@ -1,5 +1,5 @@
 # WebRunner
-This scrapy tool will help you to extract all url, emails on a website, and allows you create your own searches using RegEx on a website
+This scraping/crawling tool will help you to extract all url, emails on a website, and allows you create your own searches using RegEx on a website
 
 <h3>Modules</h3>
 <li>url         -Extract url from a website</li>
