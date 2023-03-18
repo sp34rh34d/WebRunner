@@ -29,13 +29,13 @@ optional arguments:
   -k, --no-tls-validation   skip TLS certificate verification
       --timeout             HTTP Timeout (default 15s)
 ```
-URL extrator mode
+URL extractor mode
 ```
   python3 WebRunner.py url -u https://www.domain.com
 ```
 <img width="1068" alt="Screenshot 2023-03-17 at 15 30 11" src="https://user-images.githubusercontent.com/94752464/226087071-73365be1-cd61-44cb-8391-a2e9da5d2c5b.png">
 
-Emails extrator mode
+Emails extractor mode
 ```
   python3 WebRunner.py email -u https://www.domain.com
 ```
