@@ -20,7 +20,7 @@ class CLONE_MODULE:
 		CLONE_OPTIONS.TARGET_URL=args.url
 		CLONE_OPTIONS.FOLDER=args.folder
 		CLONE_OPTIONS.NAME=args.name
-		CLONE_OPTIONS.Help=args.help
+		CLONE_OPTIONS.HELP=args.help
 
 		Core.Banner()
 		CLONE_MODULE.Banner()
