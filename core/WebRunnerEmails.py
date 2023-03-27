@@ -1,6 +1,5 @@
 from core.core import *
 import requests
-import validators
 import sys
 import concurrent.futures
 import urllib3
