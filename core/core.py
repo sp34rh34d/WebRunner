@@ -33,7 +33,7 @@ S*S.sSs.S*S   SSSbs  S*S SSSSP   S*S    S&S   SSSbssdSSS   S*S    S*S  S*S    S*
 SSS*SSS*S*S    YSSP  S*S  SSY    S*S    SSS    'SSPYSS'    S*S    SSS  S*S    SSS    YSSP  S*S    SSS  
                      SP          SP                        SP          SP                  SP          
                      Y           Y                         Y           Y                   Y   
-Coded by:{TerminalColor.Red} Adonis Izaguirre {TerminalColor.Reset} Email:{TerminalColor.Red} adonis.izaguirre@kapa7.com / adons@outlook.com {TerminalColor.Reset}
+Coded by:{TerminalColor.Red} sp34rh34d {TerminalColor.Reset} Email:{TerminalColor.Red} adonis.izaguirre@kapa7.com / adons@outlook.com {TerminalColor.Reset}
 twitter: {TerminalColor.Red}@AdonsIzaguirre{TerminalColor.Reset}
-Welcome to WebRunner v1.0 [{TerminalColor.Green}https://github.com/AdonsIzaguirre/WebRunner{TerminalColor.Reset}]
+Welcome to WebRunner v1.0 [{TerminalColor.Green}https://github.com/sp34rh34d/WebRunner{TerminalColor.Reset}]
 ======================================================================================================""")
