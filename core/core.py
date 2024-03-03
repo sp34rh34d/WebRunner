@@ -34,6 +34,6 @@ SSS*SSS*S*S    YSSP  S*S  SSY    S*S    SSS    'SSPYSS'    S*S    SSS  S*S    SS
                      SP          SP                        SP          SP                  SP          
                      Y           Y                         Y           Y                   Y   
 Coded by:{TerminalColor.Red} sp34rh34d {TerminalColor.Reset} Email:{TerminalColor.Red} adonis.izaguirre@kapa7.com / adons@outlook.com {TerminalColor.Reset}
-twitter: {TerminalColor.Red}@AdonsIzaguirre{TerminalColor.Reset}
+twitter: {TerminalColor.Red}@spearh34d{TerminalColor.Reset}
 Welcome to WebRunner v1.0 [{TerminalColor.Green}https://github.com/sp34rh34d/WebRunner{TerminalColor.Reset}]
 ======================================================================================================""")
