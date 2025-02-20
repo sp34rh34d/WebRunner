@@ -132,7 +132,7 @@ Global Flags:
 
 
 ### Path Traversal mode
-When scan a single URL this should ends with ```/```, example ```https://www.example.com/```. You can scan an specific GET parameter in the URL using ```FUZZ``` string, example ```https://www.example.com/image?filename=FUZZ```. When you specify the URL ```https://www.example.com/path/javascript.js``` the URL for scan will be ```https://www.example.com/path/```.
+When scan a single URL this should ends with ```/```, example ```https://www.example.com/```. You can scan a specific GET parameter in the URL using ```FUZZ``` string, example ```https://www.example.com/image?filename=FUZZ```. When you specify the URL ```https://www.example.com/path/javascript.js``` the URL for scan will be ```https://www.example.com/path/```.
 
 ```
 Uses Path Traversal mode
