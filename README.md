@@ -23,7 +23,7 @@ git clone https://github.com/sp34rh34d/WebRunner.git && cd WebRunner && python3 
 * Path Traversal Scanner
 
 ## Pending features
-* Bypass 403 Scanner
+* 403 Bypass Scanner
 * SQLi Scanner
 
 ### Scraping module
