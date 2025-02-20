@@ -22,7 +22,7 @@ parser.add_argument('--depth',help='this can help for traversal payloads or scra
 parser.add_argument('-h','--help',action='store_true',help="")
 
 ### args for traversal
-parser.add_argument('--os',help='Set target Operation System (windows/linux/all)')
+parser.add_argument('--os',help='Set target Operation System (windows/linux/all)',default="linux")
 parser.add_argument('-t','--threads',default=int(10),help='Set threads')
 parser.add_argument('--min-depth',help='this can help for traversal payloads, if u dont wanna set ../ and wanna start with ../../../ for payloads',default=int(1))
 parser.add_argument('--custom-path',help='Set a custom path to create payloads example path "cgi-bin/", every payload will start as "cgi-bin/../../../etc/passwd')
