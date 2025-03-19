@@ -1,10 +1,12 @@
 import requests, sys
-from core.core import msg
+from core.core import msg, tor_conf
 from core.validate import formats
 from pathlib import Path
 import concurrent.futures
 from urllib.parse import urlparse, urlunparse
 import posixpath
+import urllib3
+urllib3.disable_warnings()
 
 class payloads:
     encoded_traversal_strings = [
@@ -365,7 +367,7 @@ class payloads:
     ]
 
 class traversal:
-    def __init__(self,target_url,target_url_file,timeout,follow_redirect,cookie,user_agent,tls_validation,proxy_setting,max_depth,target_os,threads,min_depth,verbose,custom_path=[],custom_traversal_strings=[]):
+    def __init__(self,target_url,target_url_file,timeout,follow_redirect,cookie,user_agent,tls_validation,proxy_setting,max_depth,target_os,threads,min_depth,verbose,custom_path=[],custom_traversal_strings=[],custom_file_disclosure=[],change_tor_ip=False):
         self.target_url = target_url
         self.target_url_file = target_url_file
         self.timeout = int(timeout)
@@ -382,9 +384,12 @@ class traversal:
         self.count = 0
         self.count2 = 0
         self.detected = []
+        self.scanned = []
         self.verbose = verbose
         self.custom_traversal_strings = custom_traversal_strings
-        self.custom_path = custom_path 
+        self.custom_path = custom_path
+        self.custom_file_disclosure = custom_file_disclosure
+        self.change_tor_ip = change_tor_ip
 
         
     def scanner(self):
@@ -396,11 +401,12 @@ class traversal:
             elif self.target_url_file:
                 msg.info(f"Starting scan for URLs into the file {self.target_url_file}")
                 single_or_multiple_url = 1
-            elif self.min_depth > self.max_depth:
-                msg.error("--min-depth cant be greater than --depth")
-                sys.exit()
             else:
                 msg.error("no url detected, use --url or --url-file args")
+                sys.exit()
+
+            if self.min_depth > self.max_depth:
+                msg.error("--min-depth cant be greater than --max-depth")
                 sys.exit()
 
             if single_or_multiple_url == 1 :
@@ -415,13 +421,19 @@ class traversal:
                 urls_from_file = open(self.target_url_file,"r").read()
                 for url in urls_from_file.split("\n"):
                     if formats.validate_url(url):
-                        msg.warning(f"Scanning url {url}")
-                        with concurrent.futures.ThreadPoolExecutor(max_workers=int(self.threads)) as executor:
-                            future_to_url = {executor.submit(self.check,url,payload): payload for payload in self.payloads_list}
-                    
-                            for future in concurrent.futures.as_completed(future_to_url):
-                                future.result()
-
+                        if self.normalized_url(url) in self.scanned:
+                            if self.verbose:
+                                msg.info(f"{self.normalized_url(url)} has already been scanned! skip...")
+                            pass
+                        else:
+                            self.count2 = 0
+                            msg.warning(f"Scanning url {url}")
+                            with concurrent.futures.ThreadPoolExecutor(max_workers=int(self.threads)) as executor:
+                                future_to_url = {executor.submit(self.check,url,payload): payload for payload in self.payloads_list}
+                        
+                                for future in concurrent.futures.as_completed(future_to_url):
+                                    future.result()
+                            self.scanned.append(self.normalized_url(url))
                 msg.info("done!")
                 
             else:
@@ -444,6 +456,14 @@ class traversal:
         except KeyboardInterrupt:
             msg.error("Stopped by user!")
             sys.exit()
+
+    def normalized_url(self,url):
+        parsed = urlparse(url)
+        parsed = parsed._replace(query="")
+        new_path = posixpath.join(posixpath.dirname(parsed.path), '')
+        new_parsed = parsed._replace(path=new_path)
+        new_url = urlunparse(new_parsed)
+        return new_url
 
     def payloads(self,os_payloads=[],traversal_string_list=[],path_list=[]):
         if int(self.min_depth) > int(self.max_depth):
@@ -477,17 +497,21 @@ class traversal:
             msg.info("custom path detected")
             custom_path_list = self.custom_path
 
-        if self.target_os.lower() =='linux':
-            msg.info("Loading linux path traversal payloads")
-            self.payloads(payloads.linux_file_disclosure,custom_traversal_strings_list,custom_path_list)
-            
-        elif self.target_os.lower() == 'windows':
-            msg.info("Loading windows path traversal payloads")
-            self.payloads(payloads.windows_file_disclosure,custom_traversal_strings_list,custom_path_list)
+        if self.custom_file_disclosure:
+            msg.info("custom file disclosure detected")
+            self.payloads(self.custom_file_disclosure,custom_traversal_strings_list,custom_path_list)
         else:
-            msg.info("Loading linux and windows path traversal payloads")
-            self.payloads(payloads.windows_file_disclosure,custom_traversal_strings_list,custom_path_list)
-            self.payloads(payloads.linux_file_disclosure,custom_traversal_strings_list,custom_path_list)
+            if self.target_os.lower() =='linux':
+                msg.info("Loading linux path traversal payloads")
+                self.payloads(payloads.linux_file_disclosure,custom_traversal_strings_list,custom_path_list)
+                
+            elif self.target_os.lower() == 'windows':
+                msg.info("Loading windows path traversal payloads")
+                self.payloads(payloads.windows_file_disclosure,custom_traversal_strings_list,custom_path_list)
+            else:
+                msg.info("Loading linux and windows path traversal payloads")
+                self.payloads(payloads.windows_file_disclosure,custom_traversal_strings_list,custom_path_list)
+                self.payloads(payloads.linux_file_disclosure,custom_traversal_strings_list,custom_path_list)
 
     def is_alive(self,target_url):
         try:
@@ -506,6 +530,9 @@ class traversal:
                     "http" : self.proxy_setting,
                     "https" : self.proxy_setting
                 }
+                if self.change_tor_ip:
+                    tor_conf.change_ip()
+
             res = requests.get(target_url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
             return True
         except Exception as e:
@@ -535,6 +562,9 @@ class traversal:
                     "https" : self.proxy_setting
                 }
 
+                if self.change_tor_ip:
+                    tor_conf.change_ip()
+
             response = requests.get(url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
 
             new_url = ""
@@ -552,11 +582,13 @@ class traversal:
 
             response2 = requests.get(new_url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
 
-            if response2.status_code == 200 and len(response.text) != len(response2.text):
+            if response2.status_code == 200 and len(response.text) != len(response2.text) and response2.headers["Content-Type"]=="text/plain":
                 msg.warning(f"Interesting response detected at [{url}] with payload [{payload}], status code {response2.status_code} and Content-Length {len(response2.text)} != {len(response.text)} ")
                 self.detected.append(url)
                 msg.success(f"first 31 chars [{response2.text[0:31]}]")
         except Exception as e:
+            if self.verbose:
+                msg.error(e)
             pass
         self.count2 = self.count2 +1
         

@@ -1,5 +1,7 @@
 from datetime import datetime
 import random, string
+from stem import Signal
+from stem.control import Controller
 
 class c:
 	Black = '\033[30m'
@@ -18,6 +20,16 @@ class c:
 	LightBlue = '\033[94m'
 	Pink = '\033[95m'
 	LightCyan = '\033[96m'
+
+class tor_conf:
+	def change_ip():
+		try:
+			c = Controller.from_port(port=9051)
+			c.authenticate()
+			c.signal(Signal.NEWNYM)
+			c.close()
+		except:
+			msg.error("You need to set ControlPort 9051 and CookieAuthentication 1 in torrc file")
 
 class msg:
 	def error(msg):
@@ -40,7 +52,7 @@ class random_data:
 		return ''.join(random.choice(chars) for _ in range(size))
 	
 class menu:
-	def __init__(self,module,user_agent, url, url_file, cookie, tls_validation, follow_redirect, timeout, proxy, depth,regx,os,name,min_depth,threads,verbose,custom_path=[],custom_traversal_strings=[]):
+	def __init__(self,module,user_agent, url, url_file, cookie, tls_validation, follow_redirect, timeout, proxy, depth,regx,os,name,min_depth,threads,verbose,custom_path=[],custom_traversal_strings=[],custom_file=[],change_tor_ip=False):
 		self.module = module
 		self.user_agent = user_agent
 		self.url = url
@@ -59,6 +71,8 @@ class menu:
 		self.verbose = verbose
 		self.custom_traversal_strings = custom_traversal_strings
 		self.custom_path = custom_path
+		self.custom_file = custom_file
+		self.change_tor_ip = change_tor_ip
 
 	def print(self):
 		self.WebRunnerBanner()
@@ -85,6 +99,10 @@ class menu:
 		if self.proxy:
 			Message=f"""{Message}
 - Proxy: {c.Green}{self.proxy}{c.Reset}"""
+
+		if self.proxy and self.change_tor_ip:
+			Message=f"""{Message}
+- Random TOR IP: {c.Green}{self.change_tor_ip}{c.Reset}"""
 			
 		if self.os:
 			Message=f"""{Message}
@@ -113,6 +131,10 @@ class menu:
 		if self.custom_traversal_strings and self.module == "traversal":
 			Message=f"""{Message}
 - Custom traversal strings : {c.Green}{self.custom_traversal_strings}{c.Reset}"""
+			
+		if self.custom_file and self.module == "traversal":
+			Message=f"""{Message}
+- Custom file disclosure : {c.Green}{self.custom_file}{c.Reset}"""
 
 			
 		print(f"""{Message}
@@ -144,6 +166,7 @@ Global Flags:
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
     --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
     -h, --help                  Show this message
 """)
 		
@@ -157,7 +180,7 @@ Usage:
 Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
 """)
 		self.help_general()
 	
@@ -171,7 +194,7 @@ Usage:
 Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
 """)
 		self.help_general()
 	
@@ -186,7 +209,7 @@ Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
     --regx                      Set RegEx query to seek into every http response
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
 """)
 		self.help_general()
 
@@ -215,11 +238,12 @@ Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
     --threads                   Set threads
-    --depth                     Set depth level to scan
+    --max-epth                  Set depth level to scan
     --min-depth                 This can help for traversal payloads, if u dont wanna set ../ and wanna start with ../../../ for payloads
     --os                        Set target Operation System (windows/linux/all)
     --custom-path               Set a custom path to create payloads example path "cgi-bin/", every payload will start as "cgi-bin/../../../etc/passwd"
     --custom-traversal-string   Set a custom traversal string to create payloads example path "....//", every payload will start as ""....//....//etc/passwd"
+    --custom-file               Set a custom file disclosure to create payloads example "../../mycustomfile.txt", every payload will end as ""mycustomfile.txt. Comma-separated list of items"
     -v,--verbose                Show all requested URLs with the payload used
 """)
 		self.help_general()

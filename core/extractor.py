@@ -1,13 +1,15 @@
 from core.validate import formats
-from core.core import msg, random_data, c
+from core.core import msg, random_data, c, tor_conf
 from pathlib import Path
 import sys, requests, re, os
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from collections import deque
+import urllib3
+urllib3.disable_warnings()
 
 class url_extractor:
-    def __init__(self,target_url,target_url_file,timeout,follow_redirect, cookie, user_agent, tls_validation,proxy_setting, depth):
+    def __init__(self,target_url,target_url_file,timeout,follow_redirect, cookie, user_agent, tls_validation,proxy_setting, depth,change_tor_ip=False):
         self.target_url = target_url
         self.target_url_file = target_url_file
         self.timeout = int(timeout)
@@ -20,6 +22,7 @@ class url_extractor:
         self.urls = []
         self.urls_js = []
         self.urls_img = []
+        self.change_tor_ip = change_tor_ip
 
     def scanner(self):
         try:
@@ -86,6 +89,9 @@ class url_extractor:
                     "http" : self.proxy_setting,
                     "https" : self.proxy_setting
                 }
+                if self.change_tor_ip:
+                    tor_conf.change_ip()
+
             res = requests.get(target_url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
             return True
         except Exception as e:
@@ -126,6 +132,8 @@ class url_extractor:
                         "http" : self.proxy_setting,
                         "https" : self.proxy_setting
                     }
+                    if self.change_tor_ip:
+                        tor_conf.change_ip()
 
                 response = requests.get(url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
             except Exception as e:
@@ -156,7 +164,7 @@ class url_extractor:
             sys.exit()
 
 class email_extractor:
-    def __init__(self,target_url,target_url_file,timeout,follow_redirect, cookie, user_agent, tls_validation,proxy_setting, depth):
+    def __init__(self,target_url,target_url_file,timeout,follow_redirect, cookie, user_agent, tls_validation,proxy_setting, depth,change_tor_ip=False):
         self.target_url = target_url
         self.target_url_file = target_url_file
         self.timeout = int(timeout)
@@ -168,6 +176,7 @@ class email_extractor:
         self.max_depth = int(depth)
         self.emails = []
         self.urls = []
+        self.change_tor_ip = change_tor_ip
 
     def is_alive(self,target_url):
         try:
@@ -186,6 +195,9 @@ class email_extractor:
                     "http" : self.proxy_setting,
                     "https" : self.proxy_setting
                 }
+                if self.change_tor_ip:
+                    tor_conf.change_ip()
+
             res = requests.get(target_url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
             return True
         except Exception as e:
@@ -263,6 +275,8 @@ class email_extractor:
                         "http" : self.proxy_setting,
                         "https" : self.proxy_setting
                     }
+                    if self.change_tor_ip:
+                        tor_conf.change_ip()
 
                 response = requests.get(url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
                 detected_emails = formats.validate_email(response.text)
@@ -291,7 +305,7 @@ class email_extractor:
             sys.exit()
 
 class regx:
-    def __init__(self,target_url,target_url_file,timeout,follow_redirect, cookie, user_agent, tls_validation,proxy_setting, depth, regx_string):
+    def __init__(self,target_url,target_url_file,timeout,follow_redirect, cookie, user_agent, tls_validation,proxy_setting, depth, regx_string,change_tor_ip=False):
         self.target_url = target_url
         self.target_url_file = target_url_file
         self.timeout = int(timeout)
@@ -303,6 +317,7 @@ class regx:
         self.max_depth = int(depth)
         self.regx_string = regx_string
         self.urls = []
+        self.change_tor_ip = change_tor_ip
 
     def is_alive(self,target_url):
         try:
@@ -321,6 +336,9 @@ class regx:
                     "http" : self.proxy_setting,
                     "https" : self.proxy_setting
                 }
+                if self.change_tor_ip:
+                    tor_conf.change_ip()
+
             res = requests.get(target_url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
             return True
         except Exception as e:
@@ -398,6 +416,8 @@ class regx:
                         "http" : self.proxy_setting,
                         "https" : self.proxy_setting
                     }
+                    if self.change_tor_ip:
+                        tor_conf.change_ip()
 
                 response = requests.get(url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
                 detected_regx = re.findall(self.regx_string,response.text)
@@ -428,13 +448,14 @@ class regx:
             sys.exit()
 
 class clone:
-    def __init__(self,target_url,timeout,user_agent,tls_validation,proxy_setting,project_name):
+    def __init__(self,target_url,timeout,user_agent,tls_validation,proxy_setting,project_name,change_tor_ip=False):
         self.target_url = target_url
         self.project_name = project_name
         self.timeout = int(timeout)
         self.user_agent = user_agent
         self.tls_validation = tls_validation
         self.proxy_setting = proxy_setting
+        self.change_tor_ip = change_tor_ip
 
     def save(self,url, content, base_dir='site'):
         try:
@@ -484,6 +505,8 @@ class clone:
                             "http" : self.proxy_setting,
                             "https" : self.proxy_setting
                         }
+                        if self.change_tor_ip:
+                            tor_conf.change_ip()
 
                     response = requests.get(url,headers=headers, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
                 except Exception as e:
