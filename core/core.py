@@ -166,7 +166,7 @@ Global Flags:
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
     --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
-    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
+    --rnd-ip                    Changes TOR proxy IP for every requests (torrc file required)
     -h, --help                  Show this message
 """)
 		
@@ -238,12 +238,12 @@ Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
     --threads                   Set threads
-    --max-epth                  Set depth level to scan
+    --max-depth                 Set depth level to scan
     --min-depth                 This can help for traversal payloads, if u dont wanna set ../ and wanna start with ../../../ for payloads
     --os                        Set target Operation System (windows/linux/all)
     --custom-path               Set a custom path to create payloads example path "cgi-bin/", every payload will start as "cgi-bin/../../../etc/passwd"
     --custom-traversal-string   Set a custom traversal string to create payloads example path "....//", every payload will start as ""....//....//etc/passwd"
-    --custom-file               Set a custom file disclosure to create payloads example "../../mycustomfile.txt", every payload will end as ""mycustomfile.txt. Comma-separated list of items"
+    --custom-file               Set a custom file disclosure to create payloads example "etc/custom_file.txt", every payload will end as "../../../etc/custom_file.txt". Comma-separated list of items"
     -v,--verbose                Show all requested URLs with the payload used
 """)
 		self.help_general()
