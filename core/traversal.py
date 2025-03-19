@@ -582,7 +582,7 @@ class traversal:
 
             response2 = requests.get(new_url,headers=headers,allow_redirects=self.follow_redirect, timeout=self.timeout, verify=self.tls_validation, proxies=proxy_setting)
 
-            if response2.status_code == 200 and len(response.text) != len(response2.text) and response2.headers["Content-Type"]=="text/plain":
+            if response2.status_code == 200 and len(response.text) != len(response2.text): #and response2.headers["Content-Type"]=="text/plain":
                 msg.warning(f"Interesting response detected at [{url}] with payload [{payload}], status code {response2.status_code} and Content-Length {len(response2.text)} != {len(response.text)} ")
                 self.detected.append(url)
                 msg.success(f"first 31 chars [{response2.text[0:31]}]")
