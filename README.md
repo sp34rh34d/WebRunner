@@ -60,7 +60,8 @@ Global Flags:
     -h, --help                  Show this message
 ```
 
-<img width="1536" alt="Screenshot 2025-02-19 at 6 22 17 PM" src="https://github.com/user-attachments/assets/af2b126f-4a28-4b2a-9184-98bd805615c0" />
+![Screenshot 2025-03-19 at 10 25 03 AM](https://github.com/user-attachments/assets/8a3ffb2f-5614-41da-b3e0-a12463ef662d)
+
 
 
 ### Email extractor module
@@ -87,7 +88,8 @@ Global Flags:
     -h, --help                  Show this message
 ```
 
-<img width="1582" alt="Screenshot 2025-02-19 at 6 25 34 PM" src="https://github.com/user-attachments/assets/f457154f-60cc-4437-8864-0a215c15b30a" />
+![Screenshot 2025-03-19 at 10 26 37 AM](https://github.com/user-attachments/assets/5199e24e-6bf8-4015-9d0d-6d4e49efc3a2)
+
 
 ### RegEx Query module
 ```
@@ -114,7 +116,8 @@ Global Flags:
     -h, --help                  Show this message
 ```
 
-<img width="1572" alt="Screenshot 2025-02-19 at 6 29 15 PM" src="https://github.com/user-attachments/assets/894f6624-7f7c-49da-a03a-4e196db6a105" />
+![Screenshot 2025-03-19 at 10 30 20 AM](https://github.com/user-attachments/assets/c54a757a-dadd-45c6-8b87-d3edd2b29f67)
+
 
 ### Clone mode
 ```
