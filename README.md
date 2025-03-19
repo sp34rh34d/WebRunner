@@ -181,8 +181,19 @@ Global Flags:
     -h, --help                  Show this message
 ```
 
-<img width="1341" alt="Screenshot 2025-02-19 at 6 53 06 PM" src="https://github.com/user-attachments/assets/3b6f99ac-d59d-4be7-83cb-8a116c9f684f" />
+![Screenshot 2025-03-19 at 12 58 47 PM](https://github.com/user-attachments/assets/5edad741-a3a4-4ff6-a6d6-cfca9ed2ad6e)
 
-With ```--custom-path``` and ```--custom-traversal-string``` args.
 
-<img width="1673" alt="Screenshot 2025-02-19 at 6 55 54 PM" src="https://github.com/user-attachments/assets/976ef623-48bc-4094-9682-1fa9bd2278ed" />
+With ```--custom-path```, ```--custom-traversal-string``` and ```--custom-file``` args.
+
+![Screenshot 2025-03-19 at 1 02 48 PM](https://github.com/user-attachments/assets/dfd6472b-1864-41a0-90bd-bdf314f157c2)
+
+
+Using TOR project for HTTP Proxy with args ```--proxy http://127.0.0.1:9055``` and random IP with arg ```--rnd-ip```, torrc file is required for this, check TOR section to see the conf for the torrc file.
+
+![Screenshot 2025-03-19 at 1 09 02 PM](https://github.com/user-attachments/assets/b2a92246-7687-4743-85b6-5c9d5371c44f)
+
+Requests from TOR Network
+![Screenshot 2025-03-19 at 1 10 48 PM](https://github.com/user-attachments/assets/38f5a85c-1237-4ff3-a7b8-800c70ef6e42)
+
+
