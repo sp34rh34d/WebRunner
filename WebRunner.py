@@ -28,7 +28,7 @@ parser.add_argument('-t','--threads',default=int(10),help='Set threads')
 parser.add_argument('--min-depth',help='this can help for traversal payloads, if u dont wanna set ../ and wanna start with ../../../ for payloads',default=int(1))
 parser.add_argument('--custom-path',help='Set a custom path to create payloads example path "cgi-bin/", every payload will start as "cgi-bin/../../../etc/passwd')
 parser.add_argument('--custom-traversal-string',help='Set a custom traversal string to create payloads example path "....//", every payload will start as ""....//....//etc/passwd. Comma-separated list of items')
-parser.add_argument('--custom-file',help='Set a custom file disclosure to create payloads example "../../mycustomfile.txt", every payload will end as ""mycustomfile.txt. Comma-separated list of items')
+parser.add_argument('--custom-file',help='Set a custom file disclosure to create payloads example "etc/custom_file.txt", every payload will end as "../../../etc/custom_file.txt". Comma-separated list of items"')
 parser.add_argument('-v','--verbose',action='store_true',help='Show all requested URLs with the payload used ')
 
 ### args for clone mode
