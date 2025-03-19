@@ -26,6 +26,16 @@ git clone https://github.com/sp34rh34d/WebRunner.git && cd WebRunner && python3 
 * 403 Bypass Scanner
 * SQLi Scanner
 
+## TOR 
+You can use TOR project to create your HTTP Proxy with parameter ```HTTPTunnelPort 9055```, and use that port with argument ```--proxy http://127.0.0.1:9055```, if u wanna change your IP for every request, you can use the arg ```--rnd-ip```, but you will need to especify a torrc file, create it with the following parameter.
+```
+#torrc file content
+HTTPTunnelPort 9055
+CookieAuthentication 1
+ControlPort 9051
+```
+Then just run ```tor -f torrc```
+
 ### Scraping module
 ```
 Uses Scraping mode
@@ -36,7 +46,7 @@ Usage:
 Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
 
 
 Global Flags:
@@ -45,7 +55,8 @@ Global Flags:
     -k, --no-tls-validation     Skip TLS certificate verification
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
-    --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --proxy                     Set http proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
     -h, --help                  Show this message
 ```
 
@@ -62,7 +73,7 @@ Usage:
 Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
 
 
 Global Flags:
@@ -71,7 +82,8 @@ Global Flags:
     -k, --no-tls-validation     Skip TLS certificate verification
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
-    --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --proxy                     Set http proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
     -h, --help                  Show this message
 ```
 
@@ -88,7 +100,7 @@ Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
     --regx                      Set RegEx query to seek into every http response
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
 
 
 Global Flags:
@@ -97,7 +109,8 @@ Global Flags:
     -k, --no-tls-validation     Skip TLS certificate verification
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
-    --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --proxy                     Set http proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
     -h, --help                  Show this message
 ```
 
@@ -122,7 +135,8 @@ Global Flags:
     -k, --no-tls-validation     Skip TLS certificate verification
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
-    --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --proxy                     Set http proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
     -h, --help                  Show this message
 ```
 
@@ -144,11 +158,12 @@ Flags:
     --url                       Set target URL single mode
     --url-file                  Load targets URL from txt file
     --threads                   Set threads
-    --depth                     Set depth level to scan
+    --max-depth                 Set depth level to scan
     --min-depth                 This can help for traversal payloads, if u dont wanna set ../ and wanna start with ../../../ for payloads
     --os                        Set target Operation System (windows/linux/all)
     --custom-path               Set a custom path to create payloads example path "cgi-bin/", every payload will start as "cgi-bin/../../../etc/passwd"
     --custom-traversal-string   Set a custom traversal string to create payloads example path "....//", every payload will start as ""....//....//etc/passwd"
+    --custom-file               Set a custom file disclosure to create payloads example "etc/custom_file.txt", every payload will end as "../../../etc/custom_file.txt". Comma-separated list of items"
     -v,--verbose                Show all requested URLs with the payload used
 
 
@@ -158,7 +173,8 @@ Global Flags:
     -k, --no-tls-validation     Skip TLS certificate verification
     -r, --follow-redirect       Follow redirects
     --timeout                   HTTP Timeout (default 10s)
-    --proxy                     Set proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --proxy                     Set http proxy setting for every HTTP request [<https://proxy:port> or <https://username:passwd@proxy:port>]
+    --rnd-ip                    Changes TOR proxy IP for every requests (torcc file required)
     -h, --help                  Show this message
 ```
 
