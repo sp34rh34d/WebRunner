@@ -217,7 +217,10 @@ class payloads:
         "proc/swaps",
         "proc/version",
         "proc/self/net/arp",
-        "proc/self/cwd/db.json"
+        "proc/self/cwd/db.json",
+        "proc/self/cwd/flag.txt",
+        "proc/self/cwd/app.py",
+        "proc/self/environ",
         "root/anaconda-ks.cfg",
         "usr/etc/pure-ftpd.conf",
         "usr/lib/php.ini",
